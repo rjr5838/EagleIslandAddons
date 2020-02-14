@@ -1,0 +1,225 @@
+
+Eagle_Island
+---------------------------------------------------------------------------------
+Changed a few fields/methods/classes to public vs private/internal
+Eagle_Island.GameState
+Eagle_Island.Input.GamePadState (set)
+Eagle_Island.Quill
+Eagle_Island.Raven
+Eagle_Island.Audio
+---------------------------------------------------------------------------------
+// Eagle_Island.Input
+public static GamePadState TasGamepadState { get; set; }
+
+public static void Update(Game game)
+{
+	Input.Update(game, false);
+}
+
+public static void Update(Game game, bool tasRunning)
+{
+	Input.lastHasFocus = Input.HasFocus;
+	Input.HasFocus = game.IsActive;
+	Input.TimeSinceLastInput++;
+	Input.disableFurtherInput = false;
+	if ((Map.Fade > 0f || Map.FadeOut) && (Interface.Mode != Interface.Modes.Title || Map.Fade > 0.66f))
+	{
+		Input.disableFurtherInput = true;
+	}
+	if (Input.LastInputMethod != Input.InputMethods.Mouse)
+	{
+		Input.LastKeyboardOrGamepad = Input.LastInputMethod;
+	}
+	if (Input.MouseState.LeftButton == ButtonState.Released)
+	{
+		Input.hasDownClicked = false;
+	}
+	if (Input.MouseState.RightButton == ButtonState.Released)
+	{
+		Input.hasRightClicked = false;
+	}
+	Input.oldGamepadState = Input.GamepadState;
+	Input.lastGamepadIndex = Input.GamepadIndex;
+	Input.lastHeldKeys = Input.heldKeys;
+	if (Input.haltMouse > 0)
+	{
+		Input.haltMouse--;
+		if (Input.haltMouse == 0)
+		{
+			Input.MouseState = Mouse.GetState();
+		}
+	}
+	Input.lastMouseState = Input.MouseState;
+	if (Input.HasFocus)
+	{
+		if (!tasRunning)
+		{
+			Input.DetectGamepadIndex();
+			Input.GamepadState = (Options.GetBool(Options.Names.DisableGamepad) ? default(GamePadState) : GamePad.GetState(Input.GamepadIndex, GamePadDeadZone.Circular));
+		} 
+		else
+		{
+			Input.GamepadState = Input.TasGamepadState;
+		}
+		Input.KeyboardState = Keyboard.GetState();
+		Input.heldKeys = Input.KeyboardState.GetPressedKeys();
+		try
+		{
+			if (Input.haltMouse == 0)
+			{
+				Input.MouseState = Mouse.GetState();
+			}
+		}
+		catch
+		{
+		}
+		if (!Input.lastHasFocus)
+		{
+			Input.lastMouseState = Input.MouseState;
+		}
+		if (Input.ThumbStick.X != 0f || Input.ThumbStick.Y != 0f)
+		{
+			Input.LastUsedThumbstick = true;
+		}
+		else if (Input.Tap(Input.Actions.Left, false) || Input.Tap(Input.Actions.Right, false) || Input.Tap(Input.Actions.Up, false) || Input.Tap(Input.Actions.Down, false))
+		{
+			Input.LastUsedThumbstick = false;
+		}
+	}
+	else if (Input.lastHasFocus)
+	{
+		Input.GamepadState = default(GamePadState);
+		Input.KeyboardState = default(KeyboardState);
+		Input.heldKeys = new Keys[0];
+		if (Input.haltMouse == 0)
+		{
+			Input.MouseState = default(MouseState);
+			Input.lastMouseState = Input.MouseState;
+		}
+	}
+	if (!Input.HasFocus)
+	{
+		game.IsMouseVisible = true;
+	}
+	else if (Input.MouseState.Position.X != 0 && Input.MouseState.Position.Y != 0 && Input.lastMouseState.Position.X != 0 && Input.lastMouseState.Position.Y != 0 && Input.MouseState.Position != Input.lastMouseState.Position)
+	{
+		Input.mouseHideWait = 50;
+		game.IsMouseVisible = true;
+		Input.LastInputMethod = Input.InputMethods.Mouse;
+	}
+	else if (Input.mouseHideWait > 0)
+	{
+		if (!Menu.IsPaused)
+		{
+			Input.mouseHideWait--;
+		}
+		if (Input.AnyKeysDown())
+		{
+			Input.mouseHideWait = 0;
+		}
+	}
+	else if (!Input.AllowMouse)
+	{
+		game.IsMouseVisible = false;
+	}
+	Input.UpdateActionTaps();
+	Input.UpdateVibrate();
+}
+
+// Eagle_Island.EagleIsland
+protected override void Update(GameTime gameTime)
+		{
+			for (int i = 0; i < Manager.FrameLoops; i++)
+			{
+				if (!this.partLoaded)
+				{
+					return;
+				}
+				if (!base.IsActive && Options.GetBool(Options.Names.PauseWhenOutOfFocus))
+				{
+					return;
+				}
+				AchievementTester.Update();
+				Leaderboards.Update();
+				Save.Update();
+				if (!Manager.Running || Manager.Recording)
+				{
+					// Update inputs as usual
+					Input.Update(this);
+					// Handle recording if necessary
+					Manager.UpdateInputs();
+				}
+				else
+				{
+					// Handle reading TAS file and setting Input.TasGamePadState
+					Manager.UpdateInputs();
+					// Process the updates to the gamepad state
+					Input.Update(this, true);
+				}
+				Options.Update();
+				Graphics.Update(gameTime);
+				Interface.Update(gameTime);
+				Leaderboard.Update();
+				VideoPlayback.Update();
+				if (this.createdWindow && this.firstDraw)
+				{
+					Map.UpdateEvenPaused();
+					Menu.Update();
+					GameState.UpdateEvenPaused();
+					Explosion.UpdateReturns();
+					EnemyBurst.UpdateReturns();
+					Light.UpdateReturns();
+					LightObject.UpdateReturns();
+					if (Map.StartRoomReady)
+					{
+						if (Map.CurrentRoom != null)
+						{
+							Raven.AddFrame();
+							if (!Menu.IsPaused && (Interface.InGameMode || Interface.Mode == Interface.Modes.Dialogue) && !GameState.FrozenAction)
+							{
+								bool flag = false;
+								this.IsFirstFrameOfSlowMotion = true;
+								this.InsideGameplayLoop = true;
+								while (GameState.UpdateLoop(gameTime))
+								{
+									Map.Update();
+									Scenery.StaticUpdate();
+									GameState.Update();
+									Camera.Update(GameState.JustStarted, true);
+									Smoke.UpdateStatic();
+									GameState.UpdatePhysics();
+									flag = true;
+									this.IsFirstFrameOfSlowMotion = false;
+								}
+								this.InsideGameplayLoop = false;
+								if (!flag)
+								{
+									GameState.FeatherRing.Update();
+								}
+								Camera.UpdateInterfaceShake();
+								ReplayKeyCap.Update();
+							}
+							else if (Interface.Mode == Interface.Modes.PlacePerk)
+							{
+								Camera.Update(false, false);
+							}
+							if (Map.CurrentRoom != null)
+							{
+								Audio.Update(Map.CurrentRoom.GetWaterVolume());
+							}
+						}
+					}
+					else
+					{
+						Audio.Update(0f);
+					}
+				}
+				GIF.Update(gameTime);
+				base.Update(gameTime);
+			}
+			if (Manager.FrameLoops >= 10)
+			{
+				base.Update(gameTime);
+			}
+		}
+---------------------------------------------------------------------------------
