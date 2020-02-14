@@ -117,14 +117,17 @@ namespace TAS
 
                                 Raven.Set(15, Raven.Frame, (int)Map.Level);
                                 Raven.SetStuff(0, 0);
-                                state = State.Loaded;
+                                
 
                                 WorldObject destroyedEnemy = new BlankObject(Vector2.Zero, room);
                                 destroyedEnemy.SetEnemy(WorldObject.EnemyTypes.Plant, "ForestShroom");
                                 for (int e = 0; e < enemiesKilled; e++) {
                                     Map.EnemiesDefeated.Add(destroyedEnemy);
                                 }
-                                
+
+                                LevelStarted(room);
+
+                                state = State.Loaded;
                             }
                         }
                     }
@@ -132,6 +135,20 @@ namespace TAS
             }
 
             return state != State.Loaded;
+        }
+
+        private static void LevelStarted(Room room)
+        {
+            Map.LevelStarted = true;
+            if (!Map.Hub)
+            {
+                MusicPlayer.Play(room.Section.Theme, false);
+                return;
+            }
+            if (!Audio.SpecialMusic)
+            {
+                MusicPlayer.Play(room.Section.Theme, false);
+            }
         }
 
         private enum State

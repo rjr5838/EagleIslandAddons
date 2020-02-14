@@ -224,7 +224,13 @@ namespace TAS {
 
 				bool save = IsKeyDown(bindings.keySave);
 				bool load = IsKeyDown(bindings.keyLoad);
+				bool maxHpGems = IsKeyDown(bindings.keyMaxHpGems);
 
+				if(maxHpGems && GameState.Quinn != null)
+				{
+					GameState.Quinn.GainHealth(GameState.Quinn.MaxHealth);
+					GameState.Quinn.Gems = (int)(6f + Perk.GetBonus(GameState.Quinn.Perks, Perk.Bonuses.GemSlots, false));
+				}
 				if (save)
 				{
 					SaveManager.Save();
@@ -326,29 +332,7 @@ namespace TAS {
 				pad
 			);
 
-			//bool found = false;
 			Input.TasGamepadState = state;
-			//for (int i = 0; i < 4; i++) {
-			//	Input.GamepadState = state;
-			//	MInput.GamePads[i].Update();
-			//	if (MInput.GamePads[i].Attached) {
-			//		found = true;
-			//		MInput.GamePads[i].CurrentState = state;
-			//	}
-			//}
-
-			//if (!found) {
-			//	MInput.GamePads[0].CurrentState = state;
-			//	MInput.GamePads[0].Attached = true;
-			//}
-
-			//if (input.HasActions(Actions.Confirm)) {
-			//	MInput.Keyboard.CurrentState = new KeyboardState(Keys.Enter);
-			//} else {
-			//	MInput.Keyboard.CurrentState = new KeyboardState();
-			//}
-
-			//MInput.UpdateVirtualInputs();
 		}
 		private static void InitializeKeys() {
 			string filePath = Directory.GetCurrentDirectory() + "\\TASsettings.xml";
@@ -359,10 +343,14 @@ namespace TAS {
 				}
 			}
 			catch {
-				bindings.keyStart = new List<Keys> { Keys.RightControl, Keys.OemOpenBrackets };
-				bindings.keyFastForward = new List<Keys> { Keys.RightControl, Keys.RightShift };
-				bindings.keyFrameAdvance = new List<Keys> { Keys.OemOpenBrackets };
-				bindings.keyPause = new List<Keys> { Keys.OemCloseBrackets };
+				bindings.keyStart = new List<Keys> { Keys.D1 };
+				bindings.keyFastForward = new List<Keys> { Keys.D3 };
+				bindings.keyFrameAdvance = new List<Keys> { Keys.D0 };
+				bindings.keyPause = new List<Keys> { Keys.D2 };
+				bindings.keyRecord = new List<Keys> { Keys.D9 };
+				bindings.keySave = new List<Keys> { Keys.D7 };
+				bindings.keyLoad = new List<Keys> { Keys.D8 };
+				bindings.keyMaxHpGems = new List<Keys> { Keys.D6 };
 				using (FileStream fs = File.Create(filePath)) {
 					XmlSerializer xml = new XmlSerializer(typeof(KeyBindings));
 					xml.Serialize(fs, bindings);

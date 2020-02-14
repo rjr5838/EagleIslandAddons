@@ -9,5 +9,6 @@ namespace TAS {
 		public List<Keys> keyRecord;
 		public List<Keys> keySave;
 		public List<Keys> keyLoad;
+		public List<Keys> keyMaxHpGems;
 	}
 }
