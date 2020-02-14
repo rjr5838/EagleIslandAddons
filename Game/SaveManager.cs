@@ -16,6 +16,7 @@ namespace TAS
         private static Room savedRoom = null;
         private static Vector2 quinnPos = Vector2.Zero;
         private static Vector2 roomCoords = Vector2.Zero;
+        private static bool savedInHub = false;
         private static int coins, seeds, health, gems, enemiesKilled;
         private static List<Perk.Names> perks;
         private static State state = State.Loaded;
@@ -30,6 +31,7 @@ namespace TAS
             gems = GameState.Quinn.Gems;
             enemiesKilled = Map.EnemiesDefeated.Count;
             perks = new List<Perk.Names>();
+            savedInHub = Map.Hub;
             for(int i = 0; i < GameState.Quinn.Perks.Length; i++)
             {
                 if (GameState.Quinn.Perks[i] != null)
@@ -45,7 +47,14 @@ namespace TAS
             {
                 case State.Loaded:
                     Map.Fade = 1f;
-                    Map.RestartLevelFromMenu();
+                    if (savedInHub)
+                    {
+                        Map.LoadHub(Map.Outcomes.ExitLevel);   
+                    }
+                    else
+                    {
+                        Map.RestartLevelFromMenu();
+                    }
                     state = State.Loading;
                     break;
                 case State.Loading:
@@ -106,6 +115,7 @@ namespace TAS
                                     }
                                 }
 
+                                Raven.Set(15, Raven.Frame, (int)Map.Level);
                                 Raven.SetStuff(0, 0);
                                 state = State.Loaded;
 
