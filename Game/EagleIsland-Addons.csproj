@@ -54,12 +54,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InterfaceManager.cs" />
     <Compile Include="InputController.cs" />
     <Compile Include="InputRecord.cs" />
+    <Compile Include="Interface\TimedMessage.cs" />
     <Compile Include="KeyBindings.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaveManager.cs" />
+    <Compile Include="Save\Saves.cs" />
+    <Compile Include="Save\SaveState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="WhatsModified.txt" />

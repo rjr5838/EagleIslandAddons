@@ -7,6 +7,10 @@ Eagle_Island.Input.GamePadState (set)
 Eagle_Island.Quill
 Eagle_Island.Raven
 Eagle_Island.Audio
+Eagle_Island.Text
+---------------------------------------------------------------------------------
+Changed a few fields to be internal instead of public
+Eagle_Island.Interface.Explosions
 ---------------------------------------------------------------------------------
 // Eagle_Island.Input
 public static GamePadState TasGamepadState { get; set; }
@@ -223,3 +227,15 @@ protected override void Update(GameTime gameTime)
 			}
 		}
 ---------------------------------------------------------------------------------
+// Eagle_Island.Interface.DrawGame
+private static void DrawGame(bool clearAndSetRenderTarget, bool inGame)
+{
+
+...
+...
+...
+
+	// Add this line right before spriteBatch.End(), leave the rest of the code the same
+	TAS.InterfaceManager.DrawGame(spriteBatch);
+	spriteBatch.End();
+}

@@ -22,7 +22,7 @@ namespace TAS {
 		public static State state, nextState;
 		public static string CurrentStatus, PlayerStatus;
 		public static int FrameStepCooldown, FrameLoops = 1;
-		private static bool frameStepWasDpadUp, frameStepWasDpadDown, loadingSave;
+		private static bool frameStepWasDpadUp, frameStepWasDpadDown, loadingSave, wasChangingSlots;
 		private static KeyboardState kbState;
 		//private static List<VirtualButton.Node>[] playerBindings;
 		private static KeyBindings bindings;
@@ -226,11 +226,26 @@ namespace TAS {
 				bool load = IsKeyDown(bindings.keyLoad);
 				bool maxHpGems = IsKeyDown(bindings.keyMaxHpGems);
 
+				bool nextSlot = IsKeyDown(bindings.keyNextSlot);
+				bool prevSlot = IsKeyDown(bindings.keyPrevSlot);
+
+				if (nextSlot && !wasChangingSlots)
+				{
+					SaveManager.IncreaseSlot();
+				} 
+				else if (prevSlot && !wasChangingSlots)
+				{
+					SaveManager.DecreaseSlot();
+				}
+
+				wasChangingSlots = nextSlot || prevSlot;
+
 				if(maxHpGems && GameState.Quinn != null)
 				{
 					GameState.Quinn.GainHealth(GameState.Quinn.MaxHealth);
 					GameState.Quinn.Gems = (int)(6f + Perk.GetBonus(GameState.Quinn.Perks, Perk.Bonuses.GemSlots, false));
 				}
+
 				if (save)
 				{
 					SaveManager.Save();
@@ -348,8 +363,10 @@ namespace TAS {
 				bindings.keyFrameAdvance = new List<Keys> { Keys.D0 };
 				bindings.keyPause = new List<Keys> { Keys.D2 };
 				bindings.keyRecord = new List<Keys> { Keys.D9 };
-				bindings.keySave = new List<Keys> { Keys.D7 };
-				bindings.keyLoad = new List<Keys> { Keys.D8 };
+				bindings.keySave = new List<Keys> { Keys.F7 };
+				bindings.keyLoad = new List<Keys> { Keys.F8 };
+				bindings.keyNextSlot = new List<Keys> { Keys.F10 };
+				bindings.keyPrevSlot = new List<Keys> { Keys.F9 };
 				bindings.keyMaxHpGems = new List<Keys> { Keys.D6 };
 				using (FileStream fs = File.Create(filePath)) {
 					XmlSerializer xml = new XmlSerializer(typeof(KeyBindings));

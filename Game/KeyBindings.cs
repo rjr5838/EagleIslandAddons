@@ -10,5 +10,7 @@ namespace TAS {
 		public List<Keys> keySave;
 		public List<Keys> keyLoad;
 		public List<Keys> keyMaxHpGems;
+		public List<Keys> keyNextSlot;
+		public List<Keys> keyPrevSlot;
 	}
 }

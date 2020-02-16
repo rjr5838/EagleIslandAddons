@@ -37,6 +37,10 @@
   - Go back tot he EagleIsland.Update method
   - This time right click in the right window and select 'Edit Method (C#)'
   - Replace the body of the method with the body in the txt file linked above
+  - Go to Interface.DrawGame method
+  - Right click and select 'Edit Class'
+  - Change Explosions from public to internal
+  - Add TAS.InterfaceManager.DrawGame(spriteBatch) right before spriteBatch.end() (check the txt file)
   - For each of the methods/fields/properties listed at the bottom of the txt file, do the following:
     - Navigate to it in dnSpy
     - Press Alt+Enter to edit it
