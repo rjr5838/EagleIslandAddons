@@ -5,7 +5,7 @@ TAS and Practice Tools for the game Eagle Island
 
 ### Patch
 
-Using the patch is the easiest way to get started. Instructions can be found [here.](https://github.com/rjr5838/EagleIslandTAS/blob/master/Game/Components/Instructions.md)
+Using the patch is the easiest way to get started. Instructions can be found [here.](https://github.com/rjr5838/EagleIslandAddons/blob/master/Game/Components/Instructions.md)
 
 ## Practice
 
@@ -77,6 +77,6 @@ While in game
 - You can comment highlighted text in Eagle Island Studio by hitting Ctrl+K
   
 ### Eagle Island Studio
-Can be used instead of notepad or similar for easier editing of the TAS file. Is located in [Releases](https://github.com/rjr5838/EagleIslandTAS/releases) as well.
+Can be used instead of notepad or similar for easier editing of the TAS file. Is located in [Releases](https://github.com/rjr5838/EagleIslandAddons/releases) as well.
 
 If EagleIsland.exe is running it will automatically open EagleIsland.tas if it exists. You can hit Ctrl+O to open a different file, which will automatically save it to EagleIsland.tas as well. Ctrl+Shift+S will open a Save As dialog as well.

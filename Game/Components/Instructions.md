@@ -5,7 +5,7 @@
 - Download this repository as a zip and unzip it somewhere.
 - Make a copy of your original EagleIsland.exe in your Eagle Island game directory (usually C:\Program Files (x86)\Steam\steamapps\common\Eagle Island\
 - Make a backup of your saves directory. (usually C:\Users\<your_name>\AppData\Roaming\Eagle Island\Saves)
-  - There have been some isntances where save data became corrupt during testing BEWARE
+  - There have been some instances where save data became corrupt during testing BEWARE
 - Copy the original EagleIsland.exe file in the Components directory with the patch file
 - Run applypatch.bat
 - Copy the newly-created EagleIsland-Patched.exe file to your Eagle Island game directory
