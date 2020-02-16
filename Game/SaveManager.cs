@@ -191,8 +191,10 @@ namespace TAS
             {
                 Map.LeftStartRoom = true;
             }
-            Map.ChangeRoom(state.QuinnPos, false);
+            GameState.Quinn.Action = Quill.Actions.Warping;
+            Map.ChangeRoom(state.QuinnPos, true);
             GameState.Quinn.Pos = state.QuinnPos;
+            GameState.Quinn.Action = Quill.Actions.ExitDoor;
             foreach (Room.Exit exit in room.Exits)
             {
                 exit.Open(0);
