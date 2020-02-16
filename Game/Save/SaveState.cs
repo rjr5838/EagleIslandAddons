@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using static Eagle_Island.Map;
 
-namespace TAS
+namespace TAS.Save
 {
     [Serializable]
     public class SaveState
@@ -19,6 +19,7 @@ namespace TAS
         public int Health { get; set; }
         public int Gems { get; set; }
         public int EnemiesKilled { get; set; }
+        public Upgrades Upgrades { get; set; }
         public List<Perk.Names> Perks { get; set; }
 
         private SaveState() { }
@@ -48,7 +49,34 @@ namespace TAS
                 }
             }
 
+            state.Upgrades = CreateUpgrades();
+
             return state;
+        }
+
+        private static Upgrades CreateUpgrades()
+        {
+            Upgrades upgrades = new Upgrades();
+            upgrades.Glove = Raven.Glove;
+            upgrades.Feather = Raven.Feather;
+            upgrades.ZepharasFeather = Raven.ElectricFeather;
+            upgrades.IcorasFeather = Raven.IceFeather;
+            upgrades.MagirasFeather = Raven.FireFeather;
+
+            upgrades.ChargeAttack = Raven.ChargeUp;
+            upgrades.ZepharasRage = Raven.ElectricCharge;
+            upgrades.IcorasWrath = Raven.IceCharge;
+            upgrades.MagirasFury = Raven.FireCharge;
+
+            upgrades.DoubleJump = Raven.DoubleJump;
+            upgrades.FlashDash = Raven.ElectricDoubleJump;
+            upgrades.Stratosphere = Raven.IceDoubleJump;
+            upgrades.BlastOff = Raven.FireDoubleJump;
+
+            upgrades.Swim = Raven.Swim;
+            upgrades.PerkSlots = GameState.Quinn.MaxPerks;
+
+            return upgrades;
         }
     }
 }

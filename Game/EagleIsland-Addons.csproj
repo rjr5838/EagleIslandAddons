@@ -64,6 +64,7 @@
     <Compile Include="SaveManager.cs" />
     <Compile Include="Save\Saves.cs" />
     <Compile Include="Save\SaveState.cs" />
+    <Compile Include="Save\Upgrades.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="WhatsModified.txt" />

@@ -68,6 +68,7 @@ namespace TAS
                                     LoadCollectables(state, room);
                                     LoadTimer();
                                     LoadDestroyedEnemies(state, room);
+                                    Upgrades.Load(state.Upgrades);
                                     status = Status.Loaded;
                                 }
                             }
