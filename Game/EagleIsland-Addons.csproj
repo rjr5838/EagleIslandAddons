@@ -43,7 +43,7 @@
     </Reference>
     <Reference Include="Microsoft.Xna.Framework.Game" />
     <Reference Include="MonoGame.Framework">
-      <HintPath>..\..\..\..\..\Games\Steam\steamapps\common\Eagle Island\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Games\Steam\steamapps\common\Eagle Island\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\..\..\..\Games\Steam\steamapps\common\Eagle Island\Newtonsoft.Json.dll</HintPath>
@@ -67,16 +67,24 @@
     <Compile Include="Save\Upgrades.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="WhatsModified.txt" />
+    <Content Include="Components\EagleIsland-Addons.dll" />
+    <Content Include="Components\xdelta3-3.1.0-x86_64.exe" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ManualInstructions.md" />
+    <None Include="Components\applypatch.bat" />
+    <None Include="Components\Instructions.md" />
+    <None Include="Components\patch" />
+    <None Include="deploy.bat" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>REM automated deployment stuff, because I was too lazy to always
+
 REM copy the output file directly for every change (and didn't want
+
 REM to use a symlink for reasons)
+
 IF EXIST "$(ProjectDir)deploy.bat" (
     call "$(ProjectDir)deploy.bat"
 )</PostBuildEvent>

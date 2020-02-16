@@ -1,0 +1,1 @@
+xdelta3-3.1.0-x86_64.exe -d -s "EagleIsland.exe" patch EagleIsland-Patched.exe

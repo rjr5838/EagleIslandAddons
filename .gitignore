@@ -1,18 +1,14 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-/.vs
+﻿/.vs
 /Game/bin
 /Game/obj
-/Game/Celeste-Addons.csproj.user
-/Game/Celeste.exe
+/Game/EagleIsland-Addons.csproj.user
 /Tools/bin
 /Tools/obj
-/Tools/CelesteStudio.csproj.user
+/Tools/EagleIslandStudio.csproj.user
 /Game/CelesteGL.exe
 /InputViewer/bin
 /InputViewer/obj
 /InputViewer/TASViewer.csproj.user
-/Game/CelesteXNA.exe
 LevelFiles/*.ltm
+/Game/deploy.bat
+
