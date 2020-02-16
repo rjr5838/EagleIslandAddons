@@ -126,8 +126,8 @@ namespace TAS
         {
             // Set the last split timer
             Raven.Set(15, Raven.Frame, (int)Map.Level);
-            // Reset timer to 0
-            Raven.SetStuff(0, 0);
+            // Reset timer to 1 frame, setting to 0 deletes the save (sometimes?)
+            Raven.SetStuff(0, 1);
         }
 
         /// <summary>

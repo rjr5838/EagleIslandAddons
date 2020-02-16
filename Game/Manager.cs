@@ -22,7 +22,7 @@ namespace TAS {
 		public static State state, nextState;
 		public static string CurrentStatus, PlayerStatus;
 		public static int FrameStepCooldown, FrameLoops = 1;
-		private static bool frameStepWasDpadUp, frameStepWasDpadDown, loadingSave, wasChangingSlots;
+		private static bool frameStepWasDpadUp, frameStepWasDpadDown, loadingSave, wasChangingSlots, wasPressingLoad;
 		private static KeyboardState kbState;
 		//private static List<VirtualButton.Node>[] playerBindings;
 		private static KeyBindings bindings;
@@ -250,7 +250,7 @@ namespace TAS {
 				{
 					SaveManager.Save();
 				}
-				else if (load)
+				else if (load && !wasPressingLoad)
 				{
 					loadingSave = SaveManager.Load();
 				}
@@ -285,6 +285,8 @@ namespace TAS {
 				{
 					DisableRun();
 				}
+
+				wasPressingLoad = load;
 			} 
 			else
 			{

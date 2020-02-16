@@ -12,6 +12,7 @@ namespace TAS.Save
         public int Index { get; set; }
         public Vector2 QuinnPos { get; set; }
         public Vector2 RoomCoords { get; set; }
+        public Point HubLocation { get; set; }
         public bool SavedInHub { get; set; }
         public Levels Level { get; set; }
         public int Coins { get; set; }
@@ -38,6 +39,7 @@ namespace TAS.Save
             state.Gems = GameState.Quinn.Gems;
             state.EnemiesKilled = Map.EnemiesDefeated.Count;
             state.SavedInHub = Map.Hub;
+            state.HubLocation = Raven.HubLocation;
             state.Level = Map.Level;
             state.Perks = new List<Perk.Names>();
             
