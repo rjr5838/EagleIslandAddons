@@ -223,7 +223,7 @@ namespace TAS {
 				bool record = IsKeyDown(bindings.keyRecord);
 
 				bool save = IsKeyDown(bindings.keySave);
-				bool load = IsKeyDown(bindings.keyLoad);
+				bool load = IsKeyDown(bindings.keyLoad) || padState.Buttons.LeftStick == ButtonState.Pressed;
 				bool maxHpGems = IsKeyDown(bindings.keyMaxHpGems);
 
 				bool nextSlot = IsKeyDown(bindings.keyNextSlot);

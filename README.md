@@ -11,7 +11,7 @@ Using the patch is the easiest way to get started. Instructions can be found [he
 
 ### Actions Available
  - F7  = Save 
- - F8  = Load
+ - F8 / Press Left Stick  = Load
  - F9  = Previous Slot
  - F10 = Next Slot
  - 6   = Set Health/Mana to full

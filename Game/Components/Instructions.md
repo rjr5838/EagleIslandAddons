@@ -21,5 +21,5 @@
 - A premade saves file is included in the Components directory, simply rename to TASSaves.xml and place in your Eagle Island game directory.
 - The included save file places Quill immediately outside the boss room with the correct items / upgrades / perks (extra health + autopilot for Geminice)
 - F9/F10 To cycle through save slots
-- F8 to load
+- F8 or Left Stick Press to load
 - F7 will overwrite!
