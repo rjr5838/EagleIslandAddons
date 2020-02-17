@@ -1,4 +1,4 @@
-﻿### Applying the patch
+﻿## Applying the patch
 
 - Currently only works/tested on windows for version 1.0.8.6!
 
@@ -15,3 +15,11 @@
 - Run the game by double clicking the EagleIsland.exe file in your game directory.
   - RUNNING THE PATCHED GAME THROUGH STEAM WILL NOT WORK
 
+
+### Using Boss Saves
+
+- A premade saves file is included in the Components directory, simply rename to TASSaves.xml and place in your Eagle Island game directory.
+- The included save file places Quill immediately outside the boss room with the correct items / upgrades / perks (extra health + autopilot for Geminice)
+- F9/F10 To cycle through save slots
+- F8 to load
+- F7 will overwrite!
